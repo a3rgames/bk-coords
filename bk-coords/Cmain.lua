@@ -1,7 +1,7 @@
 local editing = false
 local Showing = false
 
-RegisterCommand('open', function()
+RegisterCommand('coords', function()
     Showing = true
 end)
 
