@@ -8,7 +8,7 @@
 #container {
     display: inline-block;
     cursor: pointer;
-    width: 38vw;
+    width: 18vw;
     height: 2vw;
     background-color: rgba(0, 0, 0, 0.719);
     border-radius: .3vw;
@@ -64,10 +64,10 @@ i:hover{
     display: none;
     position: absolute;
     top: 2.5vw;
-    left: 35%;
+    left: 12%;
     color: #ccc;
     padding: .4vw;
-    width: 10vw;
+    width: 13vw;
     text-align: center;
     background-color: rgba(0, 0, 0, 0.726);
     border-radius: .4vw;

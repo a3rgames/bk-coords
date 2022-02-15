@@ -38,19 +38,34 @@ Citizen.CreateThread(function()
             local heading = GetEntityHeading(playerPed)
             SendNUIMessage({
                 action = "ShowCoords",
-                coordsX = playerX,
-                coordsY = playerY,
-                coordsZ = playerZ,
-                coordsH = heading,
-            })
-            print(playerX, playerY, playerZ)
-            SendNUIMessage({
-                type = 'clipboard',
-                data = '' .. vec(playerX, playerY, playerZ, heading)
+                coordsX = FormatCoord(playerX),
+                coordsY = FormatCoord(playerY),
+                coordsZ = FormatCoord(playerZ),
+                coordsH = FormatCoord(heading),
             })
         end
     end
 end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(500) 
+        if editing then
+            local coords, heading = GetEntityCoords(PlayerPedId()), GetEntityHeading(PlayerPedId()) 
+            SendNUIMessage({
+                type = 'clipboard',
+                data = '' .. vec(coords.x, coords.y, coords.z, heading)
+            })
+        end
+    end
+end)
+
+FormatCoord = function(coord)
+    if coord == nil then
+        return "uknow"
+    end
+    return tonumber(string.format("%.2f", coord))
+end
 
 function Notification (str) 
     SetNotificationTextEntry('STRING')
