@@ -13,6 +13,7 @@ $(function () {
         $(".x").text("X : " + data.coordsX);
         $(".y").text("Y : " + data.coordsY);
         $(".z").text("Z : " + data.coordsZ);
+        $(".h").text("H : " + data.coordsH);
         document.onkeyup = function (data) {
             if (data.which == 27) {
                 $.post('https://bk-coords/close', JSON.stringify({}));

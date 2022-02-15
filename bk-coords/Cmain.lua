@@ -1,7 +1,7 @@
 local editing = false
 local Showing = false
 
-RegisterCommand('coords', function()
+RegisterCommand('open', function()
     Showing = true
 end)
 
@@ -35,16 +35,18 @@ Citizen.CreateThread(function()
         if Showing then
             local playerPed = PlayerPedId()
 	        local playerX, playerY, playerZ = table.unpack(GetEntityCoords(playerPed))
+            local heading = GetEntityHeading(playerPed)
             SendNUIMessage({
                 action = "ShowCoords",
                 coordsX = playerX,
                 coordsY = playerY,
                 coordsZ = playerZ,
+                coordsH = heading,
             })
             print(playerX, playerY, playerZ)
             SendNUIMessage({
                 type = 'clipboard',
-                data = '' .. vec(playerX, playerY, playerZ)
+                data = '' .. vec(playerX, playerY, playerZ, heading)
             })
         end
     end
