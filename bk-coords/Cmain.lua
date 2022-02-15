@@ -1,38 +1,9 @@
-local editing = false
-local Showing = false
+local showing = nil
 
-RegisterCommand('open', function()
-    Showing = true
-end)
-
-RegisterCommand('close', function()
-    SendNUIMessage({
-        action = "HideCoords",
-    })
-    Showing = false
-    editing = false
-end)
-RegisterCommand('move', function ()
-    if Showing then
-        SetNuiFocus(true, true)
-        editing = true
-    else 
-        Notification('You cant move the coords if they are not showing.')
-    end
-end)
-
-RegisterNUICallback("close", function()
-    SendNUIMessage({
-        action = "HideCoords",
-    })
-    SetNuiFocus(false,false)
-    
-end)
-
-Citizen.CreateThread(function()
-    while true do 
-        Citizen.Wait(450)
-        if Showing then
+RegisterCommand("coords", function()
+    showing = not showing
+    if showing then
+        while showing do
             local playerPed = PlayerPedId()
 	        local playerX, playerY, playerZ = table.unpack(GetEntityCoords(playerPed))
             local heading = GetEntityHeading(playerPed)
@@ -43,17 +14,16 @@ Citizen.CreateThread(function()
                 coordsZ = playerZ,
                 coordsH = heading,
             })
-            print(playerX, playerY, playerZ)
             SendNUIMessage({
                 type = 'clipboard',
                 data = '' .. vec(playerX, playerY, playerZ, heading)
             })
+            Wait(200)
         end
+    else
+        SendNUIMessage({
+            action = "HideCoords",
+        })
+        SetNuiFocus(false,false)    
     end
 end)
-
-function Notification (str) 
-    SetNotificationTextEntry('STRING')
-    AddTextComponentString(str)
-    DrawNotification(0, 1)
-end
