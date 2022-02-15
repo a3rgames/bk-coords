@@ -7,7 +7,7 @@
 </h3>
 <h1> ·  In Game Preview</h1>
 
-<img src = "https://cdn.discordapp.com/attachments/853651746181349456/942879138648309790/Captura_de_pantalla_2022-02-14_212445.png">
+<img src = "https://cdn.discordapp.com/attachments/853651746181349456/943061570777407528/Captura_de_pantalla_2022-02-15_092936.png">
 
 <h1> ·  In Game Video Preview</h1>
 
