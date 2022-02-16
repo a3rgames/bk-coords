@@ -1,17 +1,10 @@
 local editing = false
 local Showing = false
 
-RegisterCommand('open', function()
-    Showing = true
+RegisterCommand('coords', function()
+	OpenCoords()
 end)
 
-RegisterCommand('close', function()
-    SendNUIMessage({
-        action = "HideCoords",
-    })
-    Showing = false
-    editing = false
-end)
 RegisterCommand('move', function ()
     if Showing then
         SetNuiFocus(true, true)
@@ -26,26 +19,30 @@ RegisterNUICallback("close", function()
         action = "HideCoords",
     })
     SetNuiFocus(false,false)
-    
 end)
 
-Citizen.CreateThread(function()
-    while true do 
-        Citizen.Wait(450)
-        if Showing then
-            local playerPed = PlayerPedId()
-	        local playerX, playerY, playerZ = table.unpack(GetEntityCoords(playerPed))
-            local heading = GetEntityHeading(playerPed)
-            SendNUIMessage({
-                action = "ShowCoords",
-                coordsX = FormatCoord(playerX),
-                coordsY = FormatCoord(playerY),
-                coordsZ = FormatCoord(playerZ),
-                coordsH = FormatCoord(heading),
-            })
-        end
-    end
-end)
+function OpenCoords()
+	Showing = not Showing
+	
+	if Showing then
+	    local playerPed = PlayerPedId()
+	    local playerX, playerY, playerZ = table.unpack(GetEntityCoords(playerPed))
+	    local heading = GetEntityHeading(playerPed)
+	    SendNUIMessage({
+			action = "ShowCoords",
+			coordsX = FormatCoord(playerX),
+			coordsY = FormatCoord(playerY),
+			coordsZ = FormatCoord(playerZ),
+			coordsH = FormatCoord(heading),
+	    })
+	elseif not Showing then
+		SendNuiMessage({
+			action = "HideCoords",  
+		)}
+		editing = false
+		SetNuiFocus(false, false)
+	end
+end
 
 Citizen.CreateThread(function()
     while true do
